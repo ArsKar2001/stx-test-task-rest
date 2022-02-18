@@ -40,4 +40,3 @@ create unique index if not exists COMMENTS_ID_UINDEX
 create unique index if not exists ARTIFACTS_ID_UINDEX
     on ARTIFACTS (ID);
 
-
