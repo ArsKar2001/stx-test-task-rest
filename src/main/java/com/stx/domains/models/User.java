@@ -17,7 +17,7 @@ import java.util.Set;
 public class User extends AbstractEntity implements UserDetails, Serializable {
     private String username;
     private String password;
-    private Boolean enabled;
+    private Boolean enabled = false;
 
     @OneToMany(mappedBy = "user")
     private Set<Artifact> artifacts;

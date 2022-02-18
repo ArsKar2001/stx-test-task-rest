@@ -1,19 +1,11 @@
 package com.stx.domains.dtos;
 
-import com.stx.domains.models.User;
-
 import java.util.UUID;
 
-public class UserView {
+public class UserDTO {
     private UUID id;
     private String username;
     private String password;
-
-    public UserView(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-    }
 
     public UUID getId() {
         return id;
