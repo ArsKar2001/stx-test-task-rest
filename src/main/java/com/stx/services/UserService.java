@@ -4,7 +4,7 @@ import com.stx.daos.UserRepo;
 import com.stx.domains.dtos.CreateUserRequest;
 import com.stx.domains.dtos.LogoutUserRequest;
 import com.stx.domains.dtos.UpdateUserRequest;
-import com.stx.domains.dtos.UserDTO;
+import com.stx.domains.dtos.UserDto;
 import com.stx.domains.mappers.UserEditMapper;
 import com.stx.domains.mappers.UserViewMapper;
 import com.stx.domains.models.User;
@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO create(CreateUserRequest request) throws ValidationException {
+    public UserDto create(CreateUserRequest request) throws ValidationException {
         if (userRepo.findByUsername(request.getUsername()).isPresent()) {
             throw new ValidationException("Пользователь существует!");
         }
@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO upsert(CreateUserRequest request) throws ValidationException {
+    public UserDto upsert(CreateUserRequest request) throws ValidationException {
         Optional<User> optionalUser = userRepo.findByUsername(request.getUsername());
 
         if (optionalUser.isEmpty()) {
@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO update(UUID id, UpdateUserRequest request) {
+    public UserDto update(UUID id, UpdateUserRequest request) {
         User user = userRepo.getById(id);
         userEditMapper.update(request, user);
         user.setPassword(encoder.encode(request.getPassword()));
@@ -71,7 +71,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO delete(UUID id) {
+    public UserDto delete(UUID id) {
         User user = userRepo.getById(id);
         user.setEnabled(false);
         user = userRepo.save(user);
@@ -84,7 +84,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь \"%s\" не найден!"));
     }
 
-    public UserDTO logout(LogoutUserRequest request) {
+    public UserDto logout(LogoutUserRequest request) {
         return delete(request.getId());
     }
 }

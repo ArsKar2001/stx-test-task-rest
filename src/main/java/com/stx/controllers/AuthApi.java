@@ -4,7 +4,7 @@ import com.stx.config.security.JwtUtil;
 import com.stx.domains.dtos.AuthUserRequest;
 import com.stx.domains.dtos.CreateUserRequest;
 import com.stx.domains.dtos.LogoutUserRequest;
-import com.stx.domains.dtos.UserDTO;
+import com.stx.domains.dtos.UserDto;
 import com.stx.domains.mappers.UserViewMapper;
 import com.stx.domains.models.User;
 import com.stx.services.UserService;
@@ -60,11 +60,11 @@ public class AuthApi {
     @PostMapping("signIn")
     public ResponseEntity<?> signIn(@RequestBody @Validated CreateUserRequest request) {
         try {
-            UserDTO userDTO = userService.create(request);
-            LOGGER.info("CREATE user: " + userDTO.getUsername());
+            UserDto UserDto = userService.upsert(request);
+            LOGGER.info("CREATE user: " + UserDto.getUsername());
             return ResponseEntity.ok()
                     .header(HttpHeaders.AUTHORIZATION)
-                    .body(userDTO);
+                    .body(UserDto);
         } catch (ValidationException e) {
             LOGGER.warn(e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
@@ -74,7 +74,7 @@ public class AuthApi {
     @PostMapping("logout")
     public ResponseEntity<?> logout(@RequestBody @Validated LogoutUserRequest request) {
         try {
-            UserDTO dto = userService.logout(request);
+            UserDto dto = userService.logout(request);
             return ResponseEntity.ok()
                     .header(HttpHeaders.UPGRADE)
                     .body(dto);

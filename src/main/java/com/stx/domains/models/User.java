@@ -22,6 +22,9 @@ public class User extends AbstractEntity implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user")
     private Set<Artifact> artifacts;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
+
     @Override
     public boolean isAccountNonExpired() {
         return false;
