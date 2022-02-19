@@ -1,12 +1,12 @@
 package com.stx.domains.mappers;
 
-import com.stx.domains.dtos.UserDTO;
+import com.stx.domains.dtos.UserDto;
 import com.stx.domains.models.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserViewMapper implements ModelDTOMapper<User, UserDTO> {
+public class UserViewMapper implements ModelDTOMapper<User, UserDto> {
     private final ModelMapper mapper;
 
     public UserViewMapper(ModelMapper mapper) {
@@ -14,12 +14,12 @@ public class UserViewMapper implements ModelDTOMapper<User, UserDTO> {
     }
 
     @Override
-    public UserDTO toDTO(User t) {
-        return mapper.map(t, UserDTO.class);
+    public UserDto toDTO(User t) {
+        return mapper.map(t, UserDto.class);
     }
 
     @Override
-    public User toModel(UserDTO f) {
+    public User toModel(UserDto f) {
         return mapper.map(f, User.class);
     }
 }
