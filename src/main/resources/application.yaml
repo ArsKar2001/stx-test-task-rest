@@ -11,7 +11,5 @@ spring:
     username: 'h2y'
     password: 'h2p'
   security:
-    user:
-      password: 'pass'
     filter:
       order: 10

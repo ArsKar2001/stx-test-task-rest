@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -21,12 +22,19 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        securedEnabled = true,
+        jsr250Enabled = true,
+        prePostEnabled = true
+)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepo userRepo;
+    private final JwtFilter jwtTokenFilter;
 
-    public SecurityConfig(UserRepo userRepo) {
+    public SecurityConfig(UserRepo userRepo, JwtFilter jwtTokenFilter) {
         this.userRepo = userRepo;
+        this.jwtTokenFilter = jwtTokenFilter;
     }
 
     @Override
@@ -60,6 +68,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/comment/**").permitAll()
                 .antMatchers("/api/comment/search/**").permitAll()
                 .anyRequest().authenticated();
+
+        http.addFilterBefore(
+                jwtTokenFilter,
+                UsernamePasswordAuthenticationFilter.class
+        );
     }
 
     @Bean
@@ -79,7 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CorsFilter(source);
     }
 
-    @Override @Bean
+    @Override
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
