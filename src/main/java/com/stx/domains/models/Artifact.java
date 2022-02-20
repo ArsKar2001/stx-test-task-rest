@@ -4,18 +4,22 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Table(name = "ARTIFACTS", schema = "PUBLIC")
-public class Artifact extends AbstractEntity {
+public class Artifact extends AbstractEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
     private String category;
     private String description;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public User getUser() {
         return user;

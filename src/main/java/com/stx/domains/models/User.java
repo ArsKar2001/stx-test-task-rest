@@ -3,7 +3,6 @@ package com.stx.domains.models;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -17,7 +16,7 @@ import java.util.Set;
 public class User extends AbstractEntity implements UserDetails, Serializable {
     private String username;
     private String password;
-    private Boolean enabled = false;
+    private Boolean enabled = true;
 
     @OneToMany(mappedBy = "user")
     private Set<Artifact> artifacts;
@@ -27,17 +26,17 @@ public class User extends AbstractEntity implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return enabled;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return enabled;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return enabled;
     }
 
     @Override
@@ -78,6 +77,34 @@ public class User extends AbstractEntity implements UserDetails, Serializable {
 
     public Set<Artifact> getArtifacts() {
         return artifacts;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        User user = (User) o;
+
+        if (!username.equals(user.username)) return false;
+        return password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
     }
 
     @Override

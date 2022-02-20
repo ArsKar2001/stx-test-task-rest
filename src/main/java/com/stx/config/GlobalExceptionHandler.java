@@ -1,6 +1,8 @@
 package com.stx.config;
 
+import com.stx.domains.exceptions.NotFoundException;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,6 +24,14 @@ public class GlobalExceptionHandler {
                 .body(new Error<>("Validation exception", List.of(e.getMessage())));
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Error<String>> handleNotFoundException(HttpServletRequest request, NotFoundException e) {
+        LOGGER.error("NotFoundException " + request.getRequestURI(), e);
+        return ResponseEntity
+                .badRequest()
+                .body(new Error<>("NotFoundException", List.of(e.getMessage())));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Error<String>> handleInternalServerError(HttpServletRequest request, Exception e) {
         LOGGER.error("handleInternalServerError " + request.getRequestURI(), e);
@@ -31,13 +41,5 @@ public class GlobalExceptionHandler {
                 .body(new Error<>("Internal server error", List.of(e.getMessage())));
     }
 
-    public record Error<T>(String message, List<T> details) {
-        public String getMessage() {
-            return message;
-        }
-
-        public List<T> getDetails() {
-            return details;
-        }
-    }
+    public record Error<T>(String message, List<T> details) {}
 }
