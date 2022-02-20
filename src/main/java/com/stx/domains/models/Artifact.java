@@ -6,7 +6,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Table(name = "ARTIFACTS", schema = "PUBLIC")

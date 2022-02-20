@@ -8,8 +8,6 @@ import java.util.UUID;
 public class UserDto implements Serializable {
     private UUID id;
     private String username;
-    private String password;
-    private Boolean enabled;
 
     public UserDto() {
     }
@@ -30,21 +28,6 @@ public class UserDto implements Serializable {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
 
 
     @Override
@@ -53,22 +36,18 @@ public class UserDto implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         UserDto entity = (UserDto) o;
         return Objects.equals(this.id, entity.id) &&
-                Objects.equals(this.username, entity.username) &&
-                Objects.equals(this.password, entity.password) &&
-                Objects.equals(this.enabled, entity.enabled);
+                Objects.equals(this.username, entity.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, enabled);
+        return Objects.hash(id, username);
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "id = " + id + ", " +
-                "username = " + username + ", " +
-                "password = " + password + ", " +
-                "enabled = " + enabled + ")";
+                "username = " + username + ")";
     }
 }

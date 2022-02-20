@@ -1,5 +1,6 @@
 package com.stx.domains.models;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Objects;
@@ -8,7 +9,8 @@ import java.util.UUID;
 @MappedSuperclass
 public class AbstractEntity {
     @Id
-    protected UUID id = UUID.randomUUID();
+    @GeneratedValue
+    protected UUID id;
 
     public UUID getId() {
         return id;

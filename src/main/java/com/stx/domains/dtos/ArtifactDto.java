@@ -10,6 +10,7 @@ public class ArtifactDto implements Serializable {
     private LocalDateTime created;
     private String category;
     private String description;
+    private UserDto user;
 
     public ArtifactDto() {
     }
@@ -76,5 +77,13 @@ public class ArtifactDto implements Serializable {
                 "created = " + created + ", " +
                 "category = " + category + ", " +
                 "description = " + description + ")";
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }

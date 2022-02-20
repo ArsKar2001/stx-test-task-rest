@@ -41,13 +41,5 @@ public class GlobalExceptionHandler {
                 .body(new Error<>("Internal server error", List.of(e.getMessage())));
     }
 
-    public record Error<T>(String message, List<T> details) {
-        public String getMessage() {
-            return message;
-        }
-
-        public List<T> getDetails() {
-            return details;
-        }
-    }
+    public record Error<T>(String message, List<T> details) {}
 }

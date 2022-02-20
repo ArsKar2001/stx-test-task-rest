@@ -2,9 +2,12 @@ package com.stx.domains.mappers;
 
 import com.stx.domains.dtos.ArtifactCreateRequest;
 import com.stx.domains.dtos.ArtifactDto;
+import com.stx.domains.dtos.ArtifactUpdateRequest;
 import com.stx.domains.models.Artifact;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ArtifactMapper implements ModelDTOMapper<Artifact, ArtifactDto> {
@@ -26,5 +29,16 @@ public class ArtifactMapper implements ModelDTOMapper<Artifact, ArtifactDto> {
 
     public Artifact create(ArtifactCreateRequest request) {
         return mapper.map(request, Artifact.class);
+    }
+
+    public void update(Artifact artifact, ArtifactUpdateRequest request) {
+        artifact.setCategory(request.getCategory());
+        artifact.setDescription(request.getDescription());
+    }
+
+    public List<ArtifactDto> toDTO(List<Artifact> artifacts) {
+        return artifacts.stream()
+                .map(this::toDTO)
+                .toList();
     }
 }
