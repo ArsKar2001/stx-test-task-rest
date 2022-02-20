@@ -1,6 +1,8 @@
 package com.stx.config;
 
+import com.stx.domains.exceptions.NotFoundException;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +22,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(new Error<>("Validation exception", List.of(e.getMessage())));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Error<String>> handleNotFoundException(HttpServletRequest request, NotFoundException e) {
+        LOGGER.error("NotFoundException " + request.getRequestURI(), e);
+        return ResponseEntity
+                .badRequest()
+                .body(new Error<>("NotFoundException", List.of(e.getMessage())));
     }
 
     @ExceptionHandler(Exception.class)

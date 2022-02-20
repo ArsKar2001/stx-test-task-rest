@@ -3,6 +3,7 @@ package com.stx.config.security;
 import com.stx.daos.UserRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -63,10 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // set permissions
                 .authorizeRequests()
                 .antMatchers("/api/public/**").permitAll()
-                .antMatchers("/api/artifact/**").permitAll()
-                .antMatchers("/api/artifact/search/**").permitAll()
-                .antMatchers("/api/comment/**").permitAll()
-                .antMatchers("/api/comment/search/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/artifact/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/artifact/search/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/comment/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/comment/search/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(

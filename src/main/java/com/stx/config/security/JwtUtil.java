@@ -22,7 +22,7 @@ public class JwtUtil {
                 .setIssuedAt(new Date())
                 .setIssuer(issued)
                 .setExpiration(twoWeek)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 

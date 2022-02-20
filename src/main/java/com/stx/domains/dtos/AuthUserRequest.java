@@ -1,7 +1,10 @@
 package com.stx.domains.dtos;
 
+import com.stx.domains.models.Role;
 import com.sun.istack.NotNull;
 import org.springframework.lang.NonNull;
+
+import java.util.Set;
 
 public class AuthUserRequest {
     @NonNull

@@ -6,7 +6,7 @@ import com.stx.domains.dtos.LogoutUserRequest;
 import com.stx.domains.dtos.UpdateUserRequest;
 import com.stx.domains.dtos.UserDto;
 import com.stx.domains.mappers.UserEditMapper;
-import com.stx.domains.mappers.UserViewMapper;
+import com.stx.domains.mappers.UserMapper;
 import com.stx.domains.models.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,13 +24,13 @@ public class UserService implements UserDetailsService {
     private final UserRepo userRepo;
     private final PasswordEncoder encoder;
     private final UserEditMapper userEditMapper;
-    private final UserViewMapper userViewMapper;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepo userRepo, PasswordEncoder encoder, UserEditMapper userEditMapper, UserViewMapper userViewMapper) {
+    public UserService(UserRepo userRepo, PasswordEncoder encoder, UserEditMapper userEditMapper, UserMapper userMapper) {
         this.userRepo = userRepo;
         this.encoder = encoder;
         this.userEditMapper = userEditMapper;
-        this.userViewMapper = userViewMapper;
+        this.userMapper = userMapper;
     }
 
     @Transactional
@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
         User user = userEditMapper.create(request);
         user.setPassword(encoder.encode(request.getPassword()));
         user = userRepo.save(user);
-        return userViewMapper.toDTO(user);
+        return userMapper.toDTO(user);
     }
 
     @Transactional
@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService {
         userEditMapper.update(request, user);
         user.setPassword(encoder.encode(request.getPassword()));
         user = userRepo.save(user);
-        return userViewMapper.toDTO(user);
+        return userMapper.toDTO(user);
     }
 
     @Transactional
@@ -75,7 +75,7 @@ public class UserService implements UserDetailsService {
         User user = userRepo.getById(id);
         user.setEnabled(false);
         user = userRepo.save(user);
-        return userViewMapper.toDTO(user);
+        return userMapper.toDTO(user);
     }
 
     @Override

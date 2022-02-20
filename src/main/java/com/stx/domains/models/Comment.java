@@ -4,10 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(schema = "PUBLIC", name = "COMMENTS")
-public class Comment extends AbstractEntity {
+public class Comment extends AbstractEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;

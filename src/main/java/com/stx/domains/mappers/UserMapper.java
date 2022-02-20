@@ -6,10 +6,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserViewMapper implements ModelDTOMapper<User, UserDto> {
+public class UserMapper implements ModelDTOMapper<User, UserDto> {
     private final ModelMapper mapper;
 
-    public UserViewMapper(ModelMapper mapper) {
+    public UserMapper(ModelMapper mapper) {
         this.mapper = mapper;
     }
 
