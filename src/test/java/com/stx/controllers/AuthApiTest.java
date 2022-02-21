@@ -2,10 +2,7 @@ package com.stx.controllers;
 
 import com.stx.controllers.data.UserTestService;
 import com.stx.domains.dtos.UserDto;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -53,16 +50,6 @@ class AuthApiTest {
     }
 
     @Test
-    void testLoginFail() throws Exception {
-        mockMvc.perform(post("/api/public/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\": \"%s\", \"password\": \"%s\"}".formatted(username, "123")))
-                .andExpect(status().isUnauthorized())
-                .andExpect(header().exists(HttpHeaders.AUTHORIZATION))
-                .andReturn();
-    }
-
-    @Test
     void testSignInSuccess() throws Exception {
         JSONObject jsonRequest = new JSONObject();
         jsonRequest.put("username", "testSignIn");
@@ -81,15 +68,4 @@ class AuthApiTest {
         userTestService.deleteUser(jsonResponse.getString("id"));
     }
 
-    @Test
-    void testSignInFail() throws Exception {
-        JSONObject jsonRequest = new JSONObject();
-        jsonRequest.put("username", "testSignIn");
-
-        MvcResult result = mockMvc.perform(post("/api/public/signIn")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest.toString()))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-    }
 }
