@@ -1,7 +1,7 @@
 package com.stx.services;
 
-import com.stx.daos.ArtifactRepo;
-import com.stx.daos.CommentRepo;
+import com.stx.domains.daos.ArtifactRepo;
+import com.stx.domains.daos.CommentRepo;
 import com.stx.domains.dtos.CommentCreateRequest;
 import com.stx.domains.dtos.CommentDto;
 import com.stx.domains.exceptions.NotFoundException;
@@ -32,9 +32,9 @@ public class CommentService {
 
     @Transactional
     public CommentDto create(User user, CommentCreateRequest request) {
-        Optional<Artifact> optionalArtifact = artifactRepo.findByUserAndId(user, request.getArtifactId());
+        Optional<Artifact> optionalArtifact = artifactRepo.findById(request.getArtifactId());
         if (optionalArtifact.isEmpty()) {
-            throw new NotFoundException("Artifact \"%s\" is not fond".formatted(request.getArtifactId()));
+            throw new NotFoundException("Artifact \"%s\" is not found".formatted(request.getArtifactId()));
         } else {
             Artifact artifact = optionalArtifact.get();
             Comment comment = mapper.create(request);
@@ -47,9 +47,9 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentDto update(User user, CommentCreateRequest request, String uuid) {
+    public CommentDto upset(User user, CommentCreateRequest request, String uuid) {
         UUID id = getUuid(uuid);
-        return update(user, request, id);
+        return upset(user, request, id);
     }
 
     @Transactional
@@ -61,14 +61,14 @@ public class CommentService {
     private void delete(User user, UUID uuid) {
         Optional<Comment> optionalComment = commentRepo.getByIdAndUser(uuid, user);
         if (optionalComment.isEmpty()) {
-            throw new NotFoundException(("Comment \"%s\" is not fond").formatted(uuid));
+            throw new NotFoundException(("Comment \"%s\" is not found").formatted(uuid));
         } else {
             Comment comment = optionalComment.get();
             commentRepo.delete(comment);
         }
     }
 
-    private CommentDto update(User user, CommentCreateRequest request, UUID uuid) {
+    private CommentDto upset(User user, CommentCreateRequest request, UUID uuid) {
         Optional<Comment> optionalComment = commentRepo.getByIdAndUser(uuid, user);
         if (optionalComment.isEmpty()) {
             return create(user, request);
@@ -94,7 +94,14 @@ public class CommentService {
         return mapper.toDTO(commentRepo.getById(id));
     }
 
+    @Transactional
     public List<CommentDto> getComments(String search) {
         return mapper.toDTO(commentRepo.findAllByContentOrderByContentAsc(search));
+    }
+
+    @Transactional
+    public void delete(String id) {
+        UUID uuid = getUuid(id);
+        commentRepo.deleteById(uuid);
     }
 }

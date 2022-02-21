@@ -1,6 +1,6 @@
 package com.stx.config.security;
 
-import com.stx.daos.UserRepo;
+import com.stx.domains.daos.UserRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

@@ -1,11 +1,9 @@
 package com.stx.domains.models;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "ARTIFACTS", schema = "PUBLIC")
@@ -16,6 +14,9 @@ public class Artifact extends AbstractEntity implements Serializable {
     private LocalDateTime created = LocalDateTime.now();
     private String category;
     private String description;
+
+    @OneToMany(mappedBy = "artifact")
+    private Set<Comment> comments;
 
     public void setUser(User user) {
         this.user = user;
@@ -47,5 +48,13 @@ public class Artifact extends AbstractEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

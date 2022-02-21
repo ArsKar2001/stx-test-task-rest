@@ -1,4 +1,4 @@
-package com.stx.daos;
+package com.stx.domains.daos;
 
 import com.stx.domains.models.Comment;
 import com.stx.domains.models.User;

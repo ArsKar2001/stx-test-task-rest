@@ -21,15 +21,15 @@ public class CommentApi {
         this.commentService = commentService;
     }
 
-    @GetMapping("{uuid}")
-    public ResponseEntity<?> get(@PathVariable String uuid) {
+    @GetMapping()
+    public ResponseEntity<?> get(@RequestParam String uuid) {
         CommentDto dto = commentService.getComment(uuid);
         return ResponseEntity.ok()
                 .body(dto);
     }
 
-    @GetMapping("{search}")
-    public ResponseEntity<?> getAll(@PathVariable String search) {
+    @GetMapping("search")
+    public ResponseEntity<?> getAll(@RequestParam String search) {
         List<CommentDto> dtos = commentService.getComments(search);
         return ResponseEntity.ok()
                 .body(dtos);
@@ -43,16 +43,16 @@ public class CommentApi {
                 .body(dto);
     }
 
-    @PostMapping("{uuid}")
-    public ResponseEntity<?> update(@PathVariable String uuid, @AuthenticationPrincipal User user, @RequestBody CommentCreateRequest request) {
-        CommentDto dto = commentService.update(user, request, uuid);
+    @PostMapping("update")
+    public ResponseEntity<?> update(@RequestParam String uuid, @AuthenticationPrincipal User user, @RequestBody CommentCreateRequest request) {
+        CommentDto dto = commentService.upset(user, request, uuid);
         logger.info("Comment update: " + uuid);
         return ResponseEntity.ok()
                 .body(dto);
     }
 
-    @DeleteMapping("{uuid}")
-    public ResponseEntity<?> delete(@PathVariable String uuid, @AuthenticationPrincipal User user) {
+    @DeleteMapping()
+    public ResponseEntity<?> delete(@RequestParam String uuid, @AuthenticationPrincipal User user) {
         commentService.delete(user, uuid);
         logger.info("Comment delete: " + uuid);
         return ResponseEntity.ok().build();

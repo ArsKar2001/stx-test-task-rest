@@ -3,6 +3,7 @@ package com.stx.domains.dtos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 public class ArtifactDto implements Serializable {
@@ -10,6 +11,7 @@ public class ArtifactDto implements Serializable {
     private LocalDateTime created;
     private String category;
     private String description;
+    private Set<CommentDto> comments;
 
     public ArtifactDto() {
     }
@@ -76,5 +78,13 @@ public class ArtifactDto implements Serializable {
                 "created = " + created + ", " +
                 "category = " + category + ", " +
                 "description = " + description + ")";
+    }
+
+    public Set<CommentDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<CommentDto> comments) {
+        this.comments = comments;
     }
 }

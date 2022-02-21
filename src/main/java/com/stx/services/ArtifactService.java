@@ -1,7 +1,7 @@
 package com.stx.services;
 
-import com.stx.daos.ArtifactRepo;
-import com.stx.daos.UserRepo;
+import com.stx.domains.daos.ArtifactRepo;
+import com.stx.domains.daos.UserRepo;
 import com.stx.domains.dtos.ArtifactCreateRequest;
 import com.stx.domains.dtos.ArtifactDto;
 import com.stx.domains.dtos.ArtifactSortRequest;
@@ -10,6 +10,7 @@ import com.stx.domains.exceptions.NotFoundException;
 import com.stx.domains.mappers.ArtifactMapper;
 import com.stx.domains.models.Artifact;
 import com.stx.domains.models.User;
+import com.stx.domains.specifications.UserSpecification.Search;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -112,7 +113,12 @@ public class ArtifactService {
 
     @Transactional
     public List<ArtifactDto> getArtifacts(String search) {
-        List<Artifact> artifacts = artifactRepo.findAllByCategoryOrUserOrDescriptionOrComment(search);
+        List<Artifact> artifacts = artifactRepo.findAllBySearch(search);
         return mapper.toDTO(artifacts);
+    }
+
+    public void delete(String id) {
+        UUID uuid = getUuid(id);
+        artifactRepo.deleteById(uuid);
     }
 }
