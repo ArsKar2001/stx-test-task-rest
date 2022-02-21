@@ -17,6 +17,14 @@ public class Comment extends AbstractEntity implements Serializable {
     @JoinColumn(name = "ARTIFACT_ID")
     private Artifact artifact;
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setArtifact(Artifact artifact) {
+        this.artifact = artifact;
+    }
+
     private String content;
 
     public Artifact getArtifact() {

@@ -7,7 +7,6 @@ import java.util.UUID;
 public class CommentDto implements Serializable {
     private UUID id;
     private String content;
-    private ArtifactDto artifact;
     private UserDto user;
 
     public CommentDto() {
@@ -34,13 +33,6 @@ public class CommentDto implements Serializable {
         this.content = content;
     }
 
-    public ArtifactDto getArtifact() {
-        return artifact;
-    }
-
-    public void setArtifact(ArtifactDto artifact) {
-        this.artifact = artifact;
-    }
 
     public UserDto getUser() {
         return user;

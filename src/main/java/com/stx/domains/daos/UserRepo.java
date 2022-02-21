@@ -1,4 +1,4 @@
-package com.stx.daos;
+package com.stx.domains.daos;
 
 import com.stx.domains.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

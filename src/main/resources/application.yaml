@@ -13,3 +13,6 @@ spring:
   security:
     filter:
       order: 10
+  test:
+    database:
+      replace: auto_configured

@@ -1,10 +1,11 @@
 package com.stx.services;
 
-import com.stx.daos.UserRepo;
+import com.stx.domains.daos.UserRepo;
 import com.stx.domains.dtos.CreateUserRequest;
 import com.stx.domains.dtos.LogoutUserRequest;
 import com.stx.domains.dtos.UpdateUserRequest;
 import com.stx.domains.dtos.UserDto;
+import com.stx.domains.exceptions.NotFoundException;
 import com.stx.domains.mappers.UserEditMapper;
 import com.stx.domains.mappers.UserMapper;
 import com.stx.domains.models.User;
@@ -48,6 +49,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public UserDto getUser(String username) {
+        Optional<User> optionalUser = userRepo.findByUsername(username);
+        if (optionalUser.isEmpty()) {
+            throw new NotFoundException("User is not fond");
+        } else {
+            User user = optionalUser.get();
+            return userMapper.toDTO(user);
+        }
+    }
+
+    @Transactional
     public UserDto upsert(CreateUserRequest request) throws ValidationException {
         Optional<User> optionalUser = userRepo.findByUsername(request.getUsername());
 
@@ -71,7 +83,12 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDto delete(UUID id) {
+    public void deleteUser(UUID id) {
+        userRepo.deleteById(id);
+    }
+
+    @Transactional
+    public UserDto disableUser(UUID id) {
         User user = userRepo.getById(id);
         user.setEnabled(false);
         user = userRepo.save(user);
@@ -85,6 +102,6 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto logout(LogoutUserRequest request) {
-        return delete(request.getId());
+        return disableUser(request.getId());
     }
 }
