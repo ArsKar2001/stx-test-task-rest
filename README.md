@@ -1,5 +1,4 @@
-# Тестовое задание Java. Startex.
-***
+# Тестовое задание Java. Startext.
 ### Стэк технологий:
 * Java SE 17
 * Spring Boot
