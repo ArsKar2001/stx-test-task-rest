@@ -12,8 +12,8 @@
 
 ### Сборка и запуск:
 * mvn clean install
-* java -jar target/books-onevizion-0.0.1-SNAPSHOT.jar
+* java -jar target/stx-test-task-rest-0.0.1-SNAPSHOT.war
 
-### Тестирование запросов:
-[Postman Workspace](https://www.postman.com/chtotib-bot-rest-service/workspace/books-onevizion)
+### Запросы к API:
+[Postman Workspace](https://www.postman.com/chtotib-bot-rest-service/workspace/stx-test-task-rest)
 
