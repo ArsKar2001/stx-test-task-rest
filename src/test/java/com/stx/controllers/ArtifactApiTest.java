@@ -101,7 +101,8 @@ class ArtifactApiTest {
         JSONObject jsonResponse = new JSONObject(mvcResult.getResponse().getContentAsString());
         assertNotNull(jsonResponse.getString("id"));
 
-        MvcResult mvcResultDelete = mockMvc.perform(MockMvcRequestBuilders.delete("/api/artifact/%s".formatted(jsonResponse.getString("id"))))
+        MvcResult mvcResultDelete =  mockMvc.perform(MockMvcRequestBuilders.delete("/api/artifact")
+                        .param("uuid", jsonResponse.getString("id")))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -123,7 +124,8 @@ class ArtifactApiTest {
         assertNotNull(jsonResponse.getString("id"));
 
 
-        MvcResult mvcResultGet = mockMvc.perform(MockMvcRequestBuilders.get("/api/artifact/%s".formatted(jsonResponse.getString("id"))))
+        MvcResult mvcResultGet = mockMvc.perform(MockMvcRequestBuilders.get("/api/artifact")
+                        .param("uuid", jsonResponse.getString("id")))
                 .andExpect(status().isOk())
                 .andReturn();
 
